@@ -1,8 +1,24 @@
+import { useState } from "react";
+
 export default function Home() {
+    const [plants, setPlants] = useState([]);
+     
+    const getPlants = () => {
+        fetch('http://localhost:3306/api/plants')
+            .then(response => response.json())
+            .then(data => setPlants(data));
+    };
     return (
         <div>
             <h1>Home</h1>
-            <button>Request plant list</button>
+            <button onClick={getPlants}>Request plant list</button>
+            {plants.length > 0 && (
+                <ul>
+                    {plants.map(plant => (
+                        <li key={plant.id}>Name: {plant.name} Scientific Name: {plant.scientific_name}</li>
+                    ))}
+                </ul>
+            )}
         </div>
     )
 }
