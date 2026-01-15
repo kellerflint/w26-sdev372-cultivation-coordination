@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import Plot from "./Plot";
 
 export default function Garden() {
@@ -13,7 +13,7 @@ export default function Garden() {
         const length = formData.get("length")
         const width = formData.get("width")
         createPlot(width, length)
-        console.log(plots)
+        console.log("plots: " + plots)
     }
 
     return (
@@ -27,11 +27,11 @@ export default function Garden() {
                 <button type="submit">Add Plot</button>
             </form>
             {plots.length > 0 && (
-                <ul>
+                <div>
                     {plots.map(plot => (
-                        <li key={plot.id}>{plot.name}</li>
+                        <div key={plot}>{plot}</div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     )
