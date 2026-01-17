@@ -1,8 +1,12 @@
 import { useState } from "react";
 import Plot from "./Plot";
-
+import PlotList from "./PlotList";
 export default function Garden() {
     const [plots, setPlots] = useState([]);
+    const [currentPlot, setCurrentPlot] = useState(null);
+    function selectPlot(id) {
+        setCurrentPlot(id)
+    }
 
     function createPlot(width, length) {
         const plot = <Plot width={width} length={length} />
@@ -26,12 +30,9 @@ export default function Garden() {
                 <input id="width" name="width" type="number" placeholder="Width (ft)" />
                 <button type="submit">Add Plot</button>
             </form>
-            {plots.length > 0 && (
-                <div>
-                    {plots.map(plot => (
-                        <div key={plot}>{plot}</div>
-                    ))}
-                </div>
+            <PlotList plots={plots} selectPlot={selectPlot} />
+            {currentPlot && (
+                plots[currentPlot]
             )}
         </div>
     )
