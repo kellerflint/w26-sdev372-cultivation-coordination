@@ -41,9 +41,8 @@ export default function Garden() {
 
             {currentPlot && (
                 plots[currentPlot - 1]
-            ) && (
-                <Seeds changeSeed={setSeed} />
             )}
+            <Seeds changeSeed={setSeed} />
         </div>
     )
 }
