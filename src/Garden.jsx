@@ -6,7 +6,7 @@ import Seeds from './Seeds.jsx'
 export default function Garden() {
     const [plots, setPlots] = useState([]);
     const [currentPlot, setCurrentPlot] = useState(null);
-    const [currentSeed, setSeed] = useState('Wheat')
+    const [currentSeed, setSeed] = useState('Dirt')
 
     function selectPlot(id) {
         setCurrentPlot(id)

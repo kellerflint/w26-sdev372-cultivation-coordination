@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import Cell from './Cell.jsx'
 
-export default function Plot({ width, length, plants = [] }) {
+export default function Plot({ width, length, plants = [], seed}) {
     const [plot, setPlot] = useState([]);
     useEffect(() => {
         let newPlot = [];
@@ -17,7 +18,7 @@ export default function Plot({ width, length, plants = [] }) {
             for (let i = 0; i < width; i++) {
                 const row = [];
                 for (let j = 0; j < length; j++) {
-                    row.push("dirt");
+                    row.push(<Cell plant={seed}/>);
                 }
                 newPlot.push(row);
             }
