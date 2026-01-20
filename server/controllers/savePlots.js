@@ -4,8 +4,10 @@ import pool from "../connection.js";
 export const savePlots = async (req, res) => {
     try {
         const plots = req.body;
-        const {name, description, plants} = await pool.query('INSERT INTO plots (name, description, plants) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), description = VALUES(description), plants = VALUES(plants)', [name, description, plants]);
-        res.json({name, description, plants});
+        await plots.map(async plot => {
+            await pool.query('UPDATE plots SET name = ?, description = ?, plants = ? WHERE id = ? ', [plot.name, plot.description, plot.plants, plot.id]);
+        })
+        res.json({plots});
     } catch (error) {
         console.error('Error saving plots:', error);
         res.status(500).json({ error: 'error saving plots to database' });
