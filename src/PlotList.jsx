@@ -8,7 +8,7 @@ export default function PlotList({ plots, selectPlot }) {
         <div>
             <button onClick={handleOpenList}>My Plots</button>
             {openList && plots.map((plot, id) => (
-                <button onClick={() => selectPlot(id)} key={id}>{"plot " + id}</button>
+                <button onClick={() => selectPlot(id)} key={id}>{plot.name}</button>
             ))}
         </div>
     )
