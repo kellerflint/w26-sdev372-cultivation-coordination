@@ -8,4 +8,4 @@ export const getPlants = async (req, res) => {
         console.error('Error fetching plants:', error);
         res.status(500).json({ message: 'Error fetching plants from database' });
     }
-};
+}
