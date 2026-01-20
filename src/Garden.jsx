@@ -6,7 +6,9 @@ import Seeds from './Seeds.jsx'
 export default function Garden() {
     const [plots, setPlots] = useState([]);
     const [currentPlot, setCurrentPlot] = useState(null);
-    const [currentSeed, setSeed] = useState('Dirt')
+    const [currentSeed, setCurrentSeed] = useState('Dirt')
+
+    console.log(currentSeed)
 
     function selectPlot(id) {
         setCurrentPlot(id)
@@ -42,7 +44,7 @@ export default function Garden() {
             {currentPlot && (
                 plots[currentPlot - 1]
             )}
-            <Seeds changeSeed={setSeed} />
+            <Seeds changeSeed={setCurrentSeed} />
         </div>
     )
 }

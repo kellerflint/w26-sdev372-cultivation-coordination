@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import Cell from './Cell.jsx'
 
-export default function Plot({ width, length, plants = [], seed}) {
+export default function Plot({ width, length, seed, name, description}) {
     const [plot, setPlot] = useState([]);
+
+    const plants = []
+
     useEffect(() => {
         let newPlot = [];
 
