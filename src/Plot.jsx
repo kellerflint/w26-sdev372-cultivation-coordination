@@ -13,7 +13,7 @@ export default function Plot({ width, length }) {
         }
         setPlot(newPlot);
     }, []);
-    console.log("single plot: " + plot);
+
     return (
         <div>
             <h1>Plot</h1>
