@@ -12,15 +12,18 @@ export default function Garden() {
         setCurrentPlot(id)
     }
 
-    function createPlot(width, length) {
-        const plot = <Plot width={width} length={length} seed={currentSeed}/>
+    function createPlot(width, length, name, description) {
+        const plot = <Plot width={width} length={length} seed={currentSeed} name={name} description={description}/>
         setPlots([...plots, plot]);
+        setCurrentPlot(plots.length)
     }
 
     function submitForm(formData) {
+        const name = formData.get("name")
+        const description = formData.get("description")
         const length = formData.get("length")
         const width = formData.get("width")
-        createPlot(width, length)
+        createPlot(width, length, name, description)
     }
 
     return (
@@ -34,8 +37,10 @@ export default function Garden() {
                 <button type="submit">Add Plot</button>
             </form>
             <PlotList plots={plots} selectPlot={selectPlot} />
+
+
             {currentPlot && (
-                plots[currentPlot]
+                plots[currentPlot - 1]
             ) && (
                 <Seeds changeSeed={setSeed} />
             )}

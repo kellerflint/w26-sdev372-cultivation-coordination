@@ -4,8 +4,8 @@ import pool from "../connection.js";
 export const savePlots = async (req, res) => {
     try {
         const plots = req.body;
-        // const [rows] = await pool.query('INSERT INTO plots ...
-        res.json(plots);
+        const {name, description, plants} = await pool.query('INSERT INTO plots (name, description, plants) VALUES (?, ?, ?)', [name, description, plants]);
+        res.json({name, description, plants});
     } catch (error) {
         console.error('Error saving plots:', error);
         res.status(500).json({ error: 'error saving plots to database' });
