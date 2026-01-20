@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Garden from "./Garden";
+import Garden from "./componentts/Garden";
+
 export default function Home() {
     const [plants, setPlants] = useState([]);
 
@@ -12,7 +13,7 @@ export default function Home() {
         <div>
             <h1>Home</h1>
             <Garden />
-            <button onClick={getPlants}>Request plant list</button>
+            <button class = "scientific" onClick={getPlants}>Request Scientific Plant Names</button>
             {plants.length > 0 && (
                 <ul>
                     {plants.map(plant => (

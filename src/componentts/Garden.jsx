@@ -1,13 +1,12 @@
 import { useState } from "react";
-import Plot from "./Plot";
-import PlotList from "./PlotList";
+import Plot from "./Plot.jsx";
+import PlotList from "./PlotList.jsx";
 import Seeds from './Seeds.jsx'
 
 export default function Garden() {
     const [plots, setPlots] = useState([]);
     const [currentPlot, setCurrentPlot] = useState(null);
     const [currentSeed, setCurrentSeed] = useState('Dirt')
-    console.log(currentSeed)
 
     function selectPlot(id) {
         setCurrentPlot(id)
@@ -18,7 +17,7 @@ export default function Garden() {
         for(let i = 0; i < width; i++){
             const row = [];
             for(let j = 0; j < length; j++){
-                row.push("dirt");
+                row.push("Dirt");
             }
             plants.push(row);
         }
@@ -41,21 +40,21 @@ export default function Garden() {
 
     return (
         <div>
-            <h1>Garden</h1>
+            <h2>Garden Creation</h2>
             <form action={submitForm}>
                 <input id="name" name="name" type="text" placeholder="Plot Name" />
                 <input id="description" name="description" type="text" placeholder="Plot Description" />
                 <input id="length" name="length" type="number" placeholder="Length (ft)" />
                 <input id="width" name="width" type="number" placeholder="Width (ft)" />
-                <button type="submit">Add Plot</button>
+                <button class = "submission" type="submit">Add Plot</button>
             </form>
             <PlotList plots={plots} selectPlot={selectPlot} />
 
+            <Seeds changeSeed={setCurrentSeed} />
 
             {currentPlot !== null && (
                 <Plot key={currentPlot} seed={currentSeed} plants={plots[currentPlot].plants} name={plots[currentPlot].name} description={plots[currentPlot].description} />
             )}
-            <Seeds changeSeed={setCurrentSeed} />
         </div>
     )
 }

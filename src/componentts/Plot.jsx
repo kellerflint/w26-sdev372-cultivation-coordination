@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cell from './Cell.jsx'
 
 export default function Plot({ seed, plants, name, description}) {
     const [plot, setPlot] = useState({name, description, plants});
     
-    console.log("current seed: ", seed)
     function updatePlants(currentSeed, index) {
         setPlot((prevPlot) => {
             const newPlot = {...prevPlot};
