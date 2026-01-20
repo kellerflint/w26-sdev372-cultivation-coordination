@@ -7,7 +7,6 @@ export default function Garden() {
     const [plots, setPlots] = useState([]);
     const [currentPlot, setCurrentPlot] = useState(null);
     const [currentSeed, setCurrentSeed] = useState('Dirt')
-    console.log(currentSeed)
 
     function selectPlot(id) {
         setCurrentPlot(id)
@@ -18,7 +17,7 @@ export default function Garden() {
         for(let i = 0; i < width; i++){
             const row = [];
             for(let j = 0; j < length; j++){
-                row.push("dirt");
+                row.push("Dirt");
             }
             plants.push(row);
         }

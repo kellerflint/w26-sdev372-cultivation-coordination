@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Garden from "./Garden";
+
 export default function Home() {
     const [plants, setPlants] = useState([]);
 
