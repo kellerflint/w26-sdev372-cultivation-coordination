@@ -34,4 +34,4 @@
 ## User Experience
 - ***User Flows***: The user will accomplish tasks by first creating their custom garden size using boxes as plots, just like excel, where each plot represents a fixed amount of feet. Then, the user will be able to plant a seed in each plot. Based on what they plant, a warning can pop up about potential risks and what the user should do to fix it.
 
-***Wireframes/Sketches***: ![alt text](image.png)
+***Wireframes/Sketches***: ![alt text](Wireframe-Cultivation.png)
