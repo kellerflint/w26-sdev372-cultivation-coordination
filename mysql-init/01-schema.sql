@@ -1,4 +1,4 @@
--- might not need this file anymore since we are using the init-db container to insert the plants into the DB.
+-- We can use this later when we decide on everything we are storing in the DB. right now we are using the init-db.
 USE plants;
 
 CREATE TABLE IF NOT EXISTS plants (
