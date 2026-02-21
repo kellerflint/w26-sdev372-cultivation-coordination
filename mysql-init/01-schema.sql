@@ -1,4 +1,4 @@
--- Runs when MySQL container is first created (empty data volume).
+-- might not need this file anymore since we are using the init-db container to insert the plants into the DB.
 USE plants;
 
 CREATE TABLE IF NOT EXISTS plants (
