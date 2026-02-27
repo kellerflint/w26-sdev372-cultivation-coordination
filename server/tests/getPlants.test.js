@@ -26,3 +26,12 @@ test("GET /api/plants returns 200 and plant list", async () => {
   expect(res.body.length).toBe(2);
   expect(res.body[0]).toHaveProperty("name");
 });
+
+test("GET /api/plants returns 500 on database error", async () => {
+  pool.query.mockRejectedValue(new Error("DB failure"));
+
+  const res = await request(app).get("/api/plants");
+
+  expect(res.statusCode).toBe(500);
+  expect(res.body).toHaveProperty("message");
+});
