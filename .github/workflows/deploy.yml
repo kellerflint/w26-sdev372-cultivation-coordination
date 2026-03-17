@@ -31,5 +31,5 @@ jobs:
                 git pull origin main
                 docker compose down
                 docker compose up --build -d
-                tailscale funnel off
+                tailscale funnel reset
                 tailscale funnel 80
