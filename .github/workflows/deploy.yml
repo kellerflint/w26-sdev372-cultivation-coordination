@@ -32,4 +32,4 @@ jobs:
                 docker compose down
                 docker compose up --build -d
                 tailscale funnel reset
-                tailscale funnel 80
+                tailscale funnel --bg 80
