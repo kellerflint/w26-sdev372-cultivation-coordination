@@ -49,6 +49,8 @@ jobs:
           DB_USER: devuser
           DB_PASSWORD: pass
           DB_NAME: plants
+          PERENUAL_API_KEY: ${{ secrets.PERENUAL_API_KEY }}
+          PERENUAL_URL: https://perenual.com/api/v2/species-list
         run: |
           npm ci
           npm run initialize
