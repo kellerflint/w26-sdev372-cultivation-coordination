@@ -1,19 +1,23 @@
 import { useState } from 'react';
 import './App.css';
 import Garden from './components/Garden';
+import { fetchPlants } from './api/plants';
+import { fetchPlots } from './api/plots';
 
 function App() {
   const [plants, setPlants] = useState([]);
+  const [plots, setPlots] = useState([]);
+  const [currentPlot, setCurrentPlot] = useState(null);
+  
+  const getPlots = () => {
+    fetchPlots()
+      .then((data) => setPlots(data))
+      .catch(() => setPlots([]));
+  };
 
   const getPlants = () => {
-    fetch('/api/plants')
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((d) => Promise.reject(d));
-        }
-        return response.json();
-      })
-      .then((data) => setPlants(Array.isArray(data) ? data : []))
+    fetchPlants()
+      .then((data) => setPlants(data))
       .catch(() => setPlants([]));
   };
 

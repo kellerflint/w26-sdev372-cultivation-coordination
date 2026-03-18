@@ -6,3 +6,9 @@ CREATE TABLE IF NOT EXISTS plants (
     common_name VARCHAR(255) NOT NULL,
     scientific_name VARCHAR(255) NOT NULL
 );
+CREATE TABLE IF NOT EXISTS plots (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    plants JSON
+);
