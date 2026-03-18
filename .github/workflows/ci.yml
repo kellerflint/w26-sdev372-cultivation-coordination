@@ -54,4 +54,4 @@ jobs:
         run: |
           npm ci
           npm run initialize
-          npm test:integration
+          npm run test:integration
