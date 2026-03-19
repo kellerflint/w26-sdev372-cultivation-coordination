@@ -37,21 +37,32 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             playwright-${{ runner.os }}-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-      - run: npm test
 
-      
-      - name: BE Test
-        working-directory: server
-        env:
-          DB_HOST: 127.0.0.1
-          DB_USER: devuser
-          DB_PASSWORD: pass
-          DB_NAME: plants
-          PERENUAL_API_KEY: ${{ secrets.PERENUAL_API_KEY }}
-          PERENUAL_URL: https://perenual.com/api/v2/species-list
-        run: |
-          npm ci
-          npm run initialize
-          npm run test:integration
+  backend-unit:
+    runs-on: ubuntu-latest
+    working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm run test:unit
+  
+  frontend-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm run test:unit
+  
+  integration:
+    needs: [test, backend-unit, frontend-unit]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run initialize
+      - run: npm run test:integration
+  
+  playwright: 
+    needs: [test, integration]
+    runs-on: ubuntu-latest
+    steps: 
+      - run: npx playwright install --with-deps
+      - run: npm run test:e2e
