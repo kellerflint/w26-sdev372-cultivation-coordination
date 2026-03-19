@@ -17,54 +17,35 @@ const dbConfig = {
 };
 
 async function initDb() {
-    try {
-        const connection = await mysql.createConnection(dbConfig);
-        console.log('Connected to database.');
+  try {
+      const connection = await mysql.createConnection(dbConfig);
+      console.log('Connected to database.');
 
-        // Create table
-        const createTableQuery = `
-            CREATE TABLE IF NOT EXISTS plants (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                common_name VARCHAR(255) NOT NULL,
-                scientific_name VARCHAR(255) NOT NULL
-            )
-        `;
-        await connection.execute(createTableQuery);
-        console.log('Table "plants" created or already exists.');
+      // Create table
+      const createTableQuery = `CREATE TABLE IF NOT EXISTS plants (id INT AUTO_INCREMENT PRIMARY KEY, common_name VARCHAR(255) NOT NULL, scientific_name VARCHAR(255) NOT NULL)`;
+      await connection.execute(createTableQuery);
+      console.log('Table "plants" created or already exists.');
 
-        // Check if data exists
-        const [rows] = await connection.execute('SELECT COUNT(*) as count FROM plants');
-        if (rows[0].count > 0) {
-             console.log('Table already has data. Skipping seed.');
-        } else {
+      const newTableQuery = `CREATE TABLE IF NOT EXISTS plots (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL, description TEXT, plants JSON)`;
+      await connection.execute(newTableQuery);
+      console.log('Table "plots" created or already exists')
 
-    //Commented out old insert query
+      // Check if data exists
+      const [rows] = await connection.execute('SELECT COUNT(*) as count FROM plants');
+      if (rows[0].count > 0) {
+        console.log('Table already has data. Skipping seed.');
+      } else {
+        //Added new helper function to insert mass amount of plant names to DB
+        await seedFromPerenual(connection, 10); // ~200 plants
+        console.log("Seeded plants from Perenual API.");
+      }
 
-            // Seed data
-            // const insertQuery = `
-            //     INSERT INTO plants (common_name, scientific_name) VALUES
-            //     ('Snake Plant', 'Sansevieria trifasciata'),
-            //     ('Monstera', 'Monstera deliciosa'),
-            //     ('Peace Lily', 'Spathiphyllum'),
-            //     ('Fiddle Leaf Fig', 'Ficus lyrata'),
-            //     ('Aloe Vera', 'Aloe barbadensis miller')
-            // `;
-            // await connection.execute(insertQuery);
-            // console.log('Seed data inserted.');
-
-    //Added new helper function to insert mass amount of plant names to DB
-            await seedFromPerenual(connection, 10); // ~200 plants
-            console.log("Seeded plants from Perenual API.");
-
-        }
-
-        await connection.end();
-        console.log('Database initialization complete.');
-
-    } catch (err) {
-        console.error('Error initializing database:', err);
-        process.exit(1);
-    }
+      await connection.end();
+      console.log('Database initialization complete.');
+  } catch (err) {
+      console.error('Error initializing database:', err);
+      process.exit(1);
+  }
 }
 
 /*
@@ -75,7 +56,7 @@ loop through each page and collect common names and scientific names under the g
 inserts into DB
 
 */
-async function seedFromPerenual(connection, pages = 5) {
+async function seedFromPerenual(connection, pages = 1) {
   for (let page = 1; page <= pages; page++) {
     console.log(`Fetching plants page ${page}...`);
 
