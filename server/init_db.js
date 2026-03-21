@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const PERENUAL_API_KEY = process.env.PERENUAL_API_KEY;
-const PERENUAL_URL = "https://perenual.com/api/v2/species-list"
+const PERENUAL_URL = process.env.PERENUAL_URL || "https://perenual.com/api/v2/species-list";
  
 //using this file to check db is being updated and has something in it while we work.
 //this file will need to be changed once we decide how many plants we want to have in the database and where the info is going to come from. 
@@ -57,13 +57,23 @@ inserts into DB
 
 */
 async function seedFromPerenual(connection, pages = 1) {
+  if (!PERENUAL_API_KEY) {
+    console.warn('PERENUAL_API_KEY missing; skipping Perenual seed.');
+    return;
+  }
   for (let page = 1; page <= pages; page++) {
     console.log(`Fetching plants page ${page}...`);
 
     const res = await fetch(
       `${PERENUAL_URL}?key=${PERENUAL_API_KEY}&page=${page}`
     );
-    const json = await res.json();
+    const json = await res.json().catch(() => null);
+    if (!res.ok || !Array.isArray(json?.data)) {
+      console.warn('Unexpected Perenual response; stopping seed.', {
+        status: res.status,
+      });
+      break;
+    }
 
     for (const plant of json.data) {
       const common = plant.common_name;

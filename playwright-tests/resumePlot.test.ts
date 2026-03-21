@@ -9,6 +9,7 @@ test('user can see saved plots', async ({ page }) => {
   await page.getByRole('dialog').getByPlaceholder('Length (ft)').fill('2');
   await page.getByRole('dialog').getByPlaceholder('Width (ft)').fill('2');
   await page.getByRole('dialog').getByRole('button', { name: 'Create plot' }).click();
+  await expect(page.getByRole('dialog')).toBeHidden();
 
   // Plot list is collapsible in the toolbar.
   await page.getByRole('button', { name: 'My Plots' }).click();
