@@ -4,14 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite && npm run server",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "cd server && npm run dev",
     "initialize": "cd server && npm run initialize",
     "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "vitest run",
+    "test:fe": "vitest run",
+    "test:be": "cd server && npm run test:unit",
+    "test:integration": "cd server && npm run test:integration",
     "test:e2e": "playwright test",
     "test:ui": "vitest --ui"
   },

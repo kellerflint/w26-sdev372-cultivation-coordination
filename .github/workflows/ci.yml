@@ -4,8 +4,33 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
 jobs:
-  test:
+  backend-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: be-tests
+        working-directory: server
+        run: |
+          npm ci
+          npm run test:unit
+  
+  frontend-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run test:fe
+  
+  integration:
+    needs: [backend-unit, frontend-unit]
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -27,22 +52,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
-      # Restore Playwright browsers cache so we don't have to download them every time
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            playwright-${{ runner.os }}-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-      - run: npm test
-
-      
-      - name: BE Test
+      - name: integration-test
         working-directory: server
         env:
           DB_HOST: 127.0.0.1
@@ -55,3 +65,25 @@ jobs:
           npm ci
           npm run initialize
           npm run test:integration
+  
+  playwright: 
+    needs: [integration]
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      # Restore Playwright browsers cache so we don't have to download them every time
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - run: npm run test:e2e

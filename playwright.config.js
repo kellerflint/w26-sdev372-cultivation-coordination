@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './playwright-tests',
 
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL: 'http://localhost',
     headless: true
   },
 
@@ -12,8 +12,8 @@ export default defineConfig({
   retries: 1,
 
   webServer: {
-    command: 'npm run dev -- --host 0.0.0.0 --port 4173',
-    url: 'http://127.0.0.1:4173',
+    command: 'docker compose up --build mysql init-db backend frontend',
+    url: 'http://localhost',
     reuseExistingServer: !process.env.CI
   }
 });
