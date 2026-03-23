@@ -1,18 +1,15 @@
 import express from "express";
+import { getPlots } from "../controllers/getPlots.js";
+import { savePlot } from "../controllers/savePlot.js";
+import { deletePlot } from "../controllers/deletePlot.js";
 
 const router = express.Router();
 
-let plots = [];
-let id = 1;
 
-router.post("/api/plots", (req, res) => {
-  const plot = { id: id++, ...req.body };
-  plots.push(plot);
-  res.status(201).json(plot);
-});
+router.get("/api/plots", getPlots);
 
-router.get("/api/plots", (req, res) => {
-  res.status(200).json(plots);
-});
+router.post("/api/plots", savePlot);
+
+router.delete("/api/plots/:id", deletePlot);
 
 export default router;

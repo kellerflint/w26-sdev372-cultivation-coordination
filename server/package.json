@@ -4,9 +4,11 @@
   "type": "module",
   "scripts": {
     "start": "node start.js",
-    "dev": "nodemon server.js",
+    "dev": "nodemon start.js",
     "initialize": "node init_db.js",
-    "test": "vitest"
+    "test": "vitest",
+    "test:unit": "vitest run getPlants.test.js",
+    "test:integration": "vitest run tests/integration/integration.test.js"
   },
   "dependencies": {
     "cors": "^2.8.6",

@@ -1,0 +1,36 @@
+name: Deploy
+
+
+on:
+  workflow_run:
+    workflows: [ CI ]
+    types: [ completed ]
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Install Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.STS_OAUTH_SECRET }}
+          tags: tag:deploy
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+            host: ${{ secrets.DEPLOY_HOST }}
+            username: ${{ secrets.DEPLOY_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            command_timeout: 20m
+            script: |
+                set -e
+                cd ${{ secrets.DEPLOY_PATH }}
+                git pull origin main
+                docker compose down
+                docker compose up --build -d
+                tailscale funnel reset
+                tailscale funnel --bg 80
