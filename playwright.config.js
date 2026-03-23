@@ -12,7 +12,7 @@ export default defineConfig({
   retries: 1,
 
   webServer: {
-    command: 'docker compose up --build mysql init-db backend frontend',
+    command: 'npm run dev',
     url: 'http://localhost',
     timeout: 300_000,
     reuseExistingServer: !process.env.CI
