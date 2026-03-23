@@ -71,21 +71,16 @@ input {
   margin-left: 10px;
 }
 
-.scientific {
-  margin-top: 15px;
-}
-
 .seeds {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  max-width: 1200px;
-  margin: 30px auto;
-  padding: 20px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
 }
 
 .search {
-  width: 30%;
+  width: 90%;
   background-color: whitesmoke;
   color: black;
 }
@@ -136,11 +131,13 @@ input {
 }
 
 .appMain {
+  text-align: center;
   padding: 24px;
 }
 
 .plotActions {
   display: flex;
+  justify-content: center;
   gap: 10px;
   align-items: center;
   margin: 6px 0 14px 0;

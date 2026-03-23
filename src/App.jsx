@@ -3,11 +3,9 @@ import './App.css';
 import Garden from './components/Garden';
 import Toolbar from './components/Toolbar';
 import NewPlotModal from './components/NewPlotModal';
-import { fetchPlants } from './api/plants';
 import { deletePlot, fetchPlots, savePlot } from './api/plots';
 
 function App() {
-  const [plants, setPlants] = useState([]);
   const [plots, setPlots] = useState([]);
   const [currentPlotId, setCurrentPlotId] = useState(null);
   const [currentSeed, setCurrentSeed] = useState('Dirt');
@@ -17,12 +15,6 @@ function App() {
     fetchPlots()
       .then((data) => setPlots(data))
       .catch(() => setPlots([]));
-  };
-
-  const getPlants = () => {
-    fetchPlants()
-      .then((data) => setPlants(data))
-      .catch(() => setPlants([]));
   };
 
   useEffect(() => {
@@ -96,6 +88,7 @@ function App() {
     <div className="appLayout">
       <Toolbar
         plots={plots}
+        onChangeSeed={setCurrentSeed}
         currentPlotId={currentPlotId}
         onSelectPlot={setCurrentPlotId}
         onOpenNewPlot={() => setNewPlotOpen(true)}
@@ -110,24 +103,12 @@ function App() {
             <button onClick={onDeleteCurrentPlot}>Delete plot</button>
           </div>
         )}
+        
         <Garden
           currentSeed={currentSeed}
-          onChangeSeed={setCurrentSeed}
           plot={currentPlot}
           onPlant={onPlant}
         />
-        <button className="scientific" onClick={getPlants}>
-          Request Scientific Plant Names
-        </button>
-        {plants.length > 0 && (
-          <ul>
-            {plants.map((plant) => (
-              <li key={plant.id}>
-                Name: {plant.common_name} Scientific Name: {plant.scientific_name}
-              </li>
-            ))}
-          </ul>
-        )}
       </main>
 
       <NewPlotModal
